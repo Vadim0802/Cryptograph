@@ -590,192 +590,188 @@ public:
 };
 int main()
 {
-	Shift a;
-	a.KeyGenerator("my_alphabet.alph", "my_key.key");
-	a.Encrypt("my_key.key", "my_encrypt.encrypt", "my_text.txt");
-	a.Decrypt("my_key.key", "my_.decrypt.txt", "my_encrypt.encrypt");
-	//while (1)
-	//{
-	//	int choice = 0;
-	//	std::cout << "\n----Menu----\n";
-	//	std::cout << "1. Encrypt/Decrypt\n";
-	//	std::cout << "2. Generate key\n";
-	//	std::cout << ">>"; std::cin >> choice;
-	//	if (choice == 1)
-	//	{
-	//		choice = 0;
-	//		std::cout << "\n----Menu->Encrypt/Decrypt----\n";
-	//		std::cout << "1. Encrypt\n";
-	//		std::cout << "2. Decrypt\n";
-	//		std::cout << ">>"; std::cin >> choice;
-	//		if (choice == 1)
-	//		{
-	//			choice = 0;
-	//			std::cout << "\n----Menu->Encrypt/Decrypt->Encrypt----\n";
-	//			std::cout << "1. Replacement\n";
-	//			std::cout << "2. Shift\n";
-	//			std::cout << "3. Gamma\n";
-	//			std::cout << ">>"; std::cin >> choice;
-	//			if (choice == 1)
-	//			{
-	//				Replacement a;
-	//				std::string pathKey;
-	//				std::string pathSave;
-	//				std::string pathTextFile;
-	//				std::cout << "\npathKey >> "; std::cin >> pathKey;
-	//				std::cout << "\npathTextFile >> "; std::cin >> pathTextFile;
-	//				std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//				a.Encrypt(pathKey, pathSave, pathTextFile);
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//			else if (choice == 2)
-	//			{
-	//				Shift a;
-	//				std::string pathKey;
-	//				std::string pathSave;
-	//				std::string pathTextFile;
-	//				std::cout << "\npathKey >> "; std::cin >> pathKey;
-	//				std::cout << "\npathTextFile >> "; std::cin >> pathTextFile;
-	//				std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//				a.Encrypt(pathKey, pathSave, pathTextFile);
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//			else if (choice == 3)
-	//			{
-	//				Gamma a;
-	//				std::string pathKey;
-	//				std::string pathSave;
-	//				std::string pathTextFile;
-	//				std::cout << "\npathKey >> "; std::cin >> pathKey;
-	//				std::cout << "\npathTextFile >> "; std::cin >> pathTextFile;
-	//				std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//				a.Encrypt(pathKey, pathSave, pathTextFile);
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//			else
-	//			{
-	//				std::cout << "\nIncorrect input!\n";
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//		}
-	//		else if (choice == 2)
-	//		{
-	//			choice = 0;
-	//			std::cout << "\n----Menu->Encrypt/Decrypt->Decrypt----\n";
-	//			std::cout << "1. Replacement\n";
-	//			std::cout << "2. Shift\n";
-	//			std::cout << "3. Gamma\n";
-	//			std::cout << ">>"; std::cin >> choice;
-	//			if (choice == 1)
-	//			{
-	//				Replacement a;
-	//				std::string pathKey;
-	//				std::string pathSave;
-	//				std::string pathEncryptText;
-	//				std::cout << "\npathKey >> "; std::cin >> pathKey;
-	//				std::cout << "\npathEncryptText >> "; std::cin >> pathEncryptText;
-	//				std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//				a.Decrypt(pathKey, pathSave, pathEncryptText);
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//			else if (choice == 2)
-	//			{
-	//				Shift a;
-	//				std::string pathKey;
-	//				std::string pathSave;
-	//				std::string pathEncryptText;
-	//				std::cout << "\npathKey >> "; std::cin >> pathKey;
-	//				std::cout << "\npathEncryptText >> "; std::cin >> pathEncryptText;
-	//				std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//				a.Decrypt(pathKey, pathSave, pathEncryptText);
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//			else if (choice == 3)
-	//			{
-	//				Gamma a;
-	//				std::string pathKey;
-	//				std::string pathSave;
-	//				std::string pathEncryptText;
-	//				std::cout << "pathKey >> "; std::cin >> pathKey;
-	//				std::cout << "\npathEncryptText >> "; std::cin >> pathEncryptText;
-	//				std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//				a.Decrypt(pathKey, pathSave, pathEncryptText);
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//			else
-	//			{
-	//				std::cout << "\nIncorrect input!\n";
-	//				system("PAUSE");
-	//				system("cls");
-	//			}
-	//		}
-	//		else
-	//		{
-	//			std::cout << "\nIncorrect input!\n";
-	//			system("PAUSE");
-	//			system("cls");
-	//		}
-	//	}
-	//	else if (choice == 2)
-	//	{
-	//		choice = 0;
-	//		std::cout << "\n----Menu->Generate key----\n";
-	//		std::cout << "1. Replacement\n";
-	//		std::cout << "2. Shift\n";
-	//		std::cout << "3. Gamma\n";
-	//		std::cout << ">>"; std::cin >> choice;
-	//		if (choice == 1)
-	//		{
-	//			Replacement a;
-	//			std::string pathAlph;
-	//			std::string pathSave;
-	//			std::cout << "\npathAlp >> "; std::cin >> pathAlph;
-	//			std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//			a.KeyGenerator(pathAlph, pathSave);
-	//			system("PAUSE");
-	//			system("cls");
-	//		}
-	//		else if (choice == 2)
-	//		{
-	//			Shift a;
-	//			std::string pathAlph;
-	//			std::string pathSave;
-	//			std::cout << "\npathAlp >> "; std::cin >> pathAlph;
-	//			std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//			a.KeyGenerator(pathAlph, pathSave);
-	//			system("PAUSE");
-	//			system("cls");
-	//		}
-	//		else if (choice == 3)
-	//		{
-	//			Gamma a;
-	//			std::string pathAlph;
-	//			std::string pathSave;
-	//			std::cout << "\npathAlp >> "; std::cin >> pathAlph;
-	//			std::cout << "\npathSave >> "; std::cin >> pathSave;
-	//			a.KeyGenerator(pathAlph, pathSave);
-	//			system("PAUSE");
-	//			system("cls");
-	//		}
-	//		else
-	//		{
-	//			std::cout << "\nIncorrect input!\n";
-	//			system("PAUSE");
-	//			system("cls");
-	//		}
-	//	}
-	//	else
-	//	{
-	//		std::cout << "\nIncorrect input!\n";
-	//		system("PAUSE");
-	//		system("cls");
-	//	}
-	//}
+	while (1)
+	{
+		int choice = 0;
+		std::cout << "\n----Menu----\n";
+		std::cout << "1. Encrypt/Decrypt\n";
+		std::cout << "2. Generate key\n";
+		std::cout << ">>"; std::cin >> choice;
+		if (choice == 1)
+		{
+			choice = 0;
+			std::cout << "\n----Menu->Encrypt/Decrypt----\n";
+			std::cout << "1. Encrypt\n";
+			std::cout << "2. Decrypt\n";
+			std::cout << ">>"; std::cin >> choice;
+			if (choice == 1)
+			{
+				choice = 0;
+				std::cout << "\n----Menu->Encrypt/Decrypt->Encrypt----\n";
+				std::cout << "1. Replacement\n";
+				std::cout << "2. Shift\n";
+				std::cout << "3. Gamma\n";
+				std::cout << ">>"; std::cin >> choice;
+				if (choice == 1)
+				{
+					Replacement a;
+					std::string pathKey;
+					std::string pathSave;
+					std::string pathTextFile;
+					std::cout << "\npathKey >> "; std::cin >> pathKey;
+					std::cout << "\npathTextFile >> "; std::cin >> pathTextFile;
+					std::cout << "\npathSave >> "; std::cin >> pathSave;
+					a.Encrypt(pathKey, pathSave, pathTextFile);
+					system("PAUSE");
+					system("cls");
+				}
+				else if (choice == 2)
+				{
+					Shift a;
+					std::string pathKey;
+					std::string pathSave;
+					std::string pathTextFile;
+					std::cout << "\npathKey >> "; std::cin >> pathKey;
+					std::cout << "\npathTextFile >> "; std::cin >> pathTextFile;
+					std::cout << "\npathSave >> "; std::cin >> pathSave;
+					a.Encrypt(pathKey, pathSave, pathTextFile);
+					system("PAUSE");
+					system("cls");
+				}
+				else if (choice == 3)
+				{
+					Gamma a;
+					std::string pathKey;
+					std::string pathSave;
+					std::string pathTextFile;
+					std::cout << "\npathKey >> "; std::cin >> pathKey;
+					std::cout << "\npathTextFile >> "; std::cin >> pathTextFile;
+					std::cout << "\npathSave >> "; std::cin >> pathSave;
+					a.Encrypt(pathKey, pathSave, pathTextFile);
+					system("PAUSE");
+					system("cls");
+				}
+				else
+				{
+					std::cout << "\nIncorrect input!\n";
+					system("PAUSE");
+					system("cls");
+				}
+			}
+			else if (choice == 2)
+			{
+				choice = 0;
+				std::cout << "\n----Menu->Encrypt/Decrypt->Decrypt----\n";
+				std::cout << "1. Replacement\n";
+				std::cout << "2. Shift\n";
+				std::cout << "3. Gamma\n";
+				std::cout << ">>"; std::cin >> choice;
+				if (choice == 1)
+				{
+					Replacement a;
+					std::string pathKey;
+					std::string pathSave;
+					std::string pathEncryptText;
+					std::cout << "\npathKey >> "; std::cin >> pathKey;
+					std::cout << "\npathEncryptText >> "; std::cin >> pathEncryptText;
+					std::cout << "\npathSave >> "; std::cin >> pathSave;
+					a.Decrypt(pathKey, pathSave, pathEncryptText);
+					system("PAUSE");
+					system("cls");
+				}
+				else if (choice == 2)
+				{
+					Shift a;
+					std::string pathKey;
+					std::string pathSave;
+					std::string pathEncryptText;
+					std::cout << "\npathKey >> "; std::cin >> pathKey;
+					std::cout << "\npathEncryptText >> "; std::cin >> pathEncryptText;
+					std::cout << "\npathSave >> "; std::cin >> pathSave;
+					a.Decrypt(pathKey, pathSave, pathEncryptText);
+					system("PAUSE");
+					system("cls");
+				}
+				else if (choice == 3)
+				{
+					Gamma a;
+					std::string pathKey;
+					std::string pathSave;
+					std::string pathEncryptText;
+					std::cout << "pathKey >> "; std::cin >> pathKey;
+					std::cout << "\npathEncryptText >> "; std::cin >> pathEncryptText;
+					std::cout << "\npathSave >> "; std::cin >> pathSave;
+					a.Decrypt(pathKey, pathSave, pathEncryptText);
+					system("PAUSE");
+					system("cls");
+				}
+				else
+				{
+					std::cout << "\nIncorrect input!\n";
+					system("PAUSE");
+					system("cls");
+				}
+			}
+			else
+			{
+				std::cout << "\nIncorrect input!\n";
+				system("PAUSE");
+				system("cls");
+			}
+		}
+		else if (choice == 2)
+		{
+			choice = 0;
+			std::cout << "\n----Menu->Generate key----\n";
+			std::cout << "1. Replacement\n";
+			std::cout << "2. Shift\n";
+			std::cout << "3. Gamma\n";
+			std::cout << ">>"; std::cin >> choice;
+			if (choice == 1)
+			{
+				Replacement a;
+				std::string pathAlph;
+				std::string pathSave;
+				std::cout << "\npathAlp >> "; std::cin >> pathAlph;
+				std::cout << "\npathSave >> "; std::cin >> pathSave;
+				a.KeyGenerator(pathAlph, pathSave);
+				system("PAUSE");
+				system("cls");
+			}
+			else if (choice == 2)
+			{
+				Shift a;
+				std::string pathAlph;
+				std::string pathSave;
+				std::cout << "\npathAlp >> "; std::cin >> pathAlph;
+				std::cout << "\npathSave >> "; std::cin >> pathSave;
+				a.KeyGenerator(pathAlph, pathSave);
+				system("PAUSE");
+				system("cls");
+			}
+			else if (choice == 3)
+			{
+				Gamma a;
+				std::string pathAlph;
+				std::string pathSave;
+				std::cout << "\npathAlp >> "; std::cin >> pathAlph;
+				std::cout << "\npathSave >> "; std::cin >> pathSave;
+				a.KeyGenerator(pathAlph, pathSave);
+				system("PAUSE");
+				system("cls");
+			}
+			else
+			{
+				std::cout << "\nIncorrect input!\n";
+				system("PAUSE");
+				system("cls");
+			}
+		}
+		else
+		{
+			std::cout << "\nIncorrect input!\n";
+			system("PAUSE");
+			system("cls");
+		}
+	}
 }
