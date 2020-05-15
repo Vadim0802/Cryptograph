@@ -82,6 +82,7 @@ public:
 		if ((pathTextFile.find(".txt") != -1) && (pathKey.find(".key") != -1) && (pathSave.find(".encrypt") != -1))
 		{
 			json key;
+			json resultEncrypt = { {"Alg_Type", "Replacement"}, {"TextEncrypt", {}} };
 			std::ifstream readFile(pathKey);
 			if (readFile.is_open()) {
 				readFile >> key;
@@ -118,9 +119,9 @@ public:
 									result.push_back(' ');
 								}
 							}
-							inputFile << result;
-							inputFile << "\n";
+							resultEncrypt.at("TextEncrypt").push_back(result);
 						}
+						inputFile << resultEncrypt;
 						getText.close();
 						inputFile.close();
 					}
@@ -160,29 +161,36 @@ public:
 				}
 				std::ifstream getEncryptText(pathEncryptText);
 				if (getEncryptText.is_open()) {
-					std::ofstream inputFile(PathSave);
-					while (!getEncryptText.eof()) {
-						std::string result;
-						std::string textEncrypt;
-						std::getline(getEncryptText, textEncrypt);
-						for (int i = 0; i < textEncrypt.size(); i++)
-						{
-							for (int j = 1; j < keyToString.size(); j += 2)
+					json textEncrypt;
+					getEncryptText >> textEncrypt;
+					getEncryptText.close();
+					if (textEncrypt.at("Alg_Type") == "Replacement") {
+						std::ofstream inputFile(PathSave);
+						for (int k = 0; k < textEncrypt.at("TextEncrypt").size(); k++) {
+							std::string result;
+							std::string text = textEncrypt.at("TextEncrypt").at(k);
+							for (int i = 0; i < text.size(); i++)
 							{
-								if (textEncrypt[i] == keyToString[j])
+								for (int j = 1; j < keyToString.size(); j += 2)
 								{
-									result.push_back(keyToString[j - 1]);
+									if (text[i] == keyToString[j])
+									{
+										result.push_back(keyToString[j - 1]);
+									}
+								}
+								if (text[i] == ' ')
+								{
+									result.push_back(' ');
 								}
 							}
-							if (textEncrypt[i] == ' ')
-							{
-								result.push_back(' ');
-							}
+							inputFile << result;
+							inputFile << "\n";
 						}
-						inputFile << result;
-						inputFile << "\n";
+						inputFile.close();
 					}
-					inputFile.close();
+					else {
+						std::cout << "Incorrect Alg_Type! Must be Replacement" << std::endl;
+					}
 				}
 				else
 				{
@@ -258,6 +266,7 @@ public:
 		if (pathKey.find(".key") != -1 && pathSave.find(".encrypt") != -1 && pathTextFile.find(".txt") != -1)
 		{
 			json key;
+			json resultEncrypt = { {"Alg_Type", "Shift"}, {"TextEncrypt", {}} };;
 			std::ifstream readFile(pathKey);
 			if (readFile.is_open()) {
 				readFile >> key;
@@ -300,9 +309,9 @@ public:
 								result.push_back(res[i]);
 							}
 							delete[] res;
-							inputFile << result;
-							inputFile << "\n";
+							resultEncrypt.at("TextEncrypt").push_back(result);
 						}
+						inputFile << resultEncrypt;
 						inputFile.close();
 					}
 					else
@@ -329,6 +338,7 @@ public:
 		if ((pathEncryptText.find(".encrypt") != -1) && (pathKey.find(".key") != -1) && (PathSave.find(".decrypt.txt") != -1))
 		{
 			json key;
+			json textEncrypt;
 			std::ifstream readFile(pathKey);
 			if (readFile.is_open()) {
 				readFile >> key;
@@ -337,36 +347,41 @@ public:
 				{
 					std::ifstream readFile(pathEncryptText);
 					if (readFile.is_open()) {
-						std::ofstream inputFile(PathSave);
-						while (!readFile.eof()) {
-							std::string text;
-							std::string result;
-							std::getline(readFile, text);
-							int KeySize = key.at("Key").size();
-							char* res = new char[text.size()];
-							int _tmp_div = text.size() / KeySize;
-							int iterator = 0;
-							for (int i = 0; i < _tmp_div; i++)
-							{
-								for (int j = 0; j < KeySize; j++)
+						readFile >> textEncrypt;
+						readFile.close();
+						if (textEncrypt.at("Alg_Type") == "Shift") {
+							std::ofstream inputFile(PathSave);
+							for (int k = 0; k < textEncrypt.at("TextEncrypt").size(); k++) {
+								std::string text = textEncrypt.at("TextEncrypt").at(k);
+								std::string result;
+								int KeySize = key.at("Key").size();
+								char* res = new char[text.size()];
+								int _tmp_div = text.size() / KeySize;
+								int iterator = 0;
+								for (int i = 0; i < _tmp_div; i++)
 								{
-									int keyElem = key.at("Key").at(j) - 1;
-									res[j + i * KeySize] = text[i * KeySize + keyElem];
-									iterator++;
+									for (int j = 0; j < KeySize; j++)
+									{
+										int keyElem = key.at("Key").at(j) - 1;
+										res[j + i * KeySize] = text[i * KeySize + keyElem];
+										iterator++;
+									}
 								}
+								for (int i = 0; i < text.size(); i++)
+								{
+									if (res[i] >= 33 && res[i] <= 46) continue;
+									result.push_back(res[i]);
+								}
+								delete[] res;
+								inputFile << result;
+								inputFile << "\n";
 							}
-							for (int i = 0; i < text.size(); i++)
-							{
-								if (res[i] >= 33 && res[i] <= 46) continue;
-								result.push_back(res[i]);
-							}
-							delete[] res;
-							inputFile << result;
-							inputFile << "\n";
+							inputFile.close();
 						}
-						inputFile.close();
+						else {
+							std::cout << "Incorrect Alg_Type! Must be Shift" << std::endl;
+						}
 					}
-					readFile.close();
 				}
 				else {
 						std::cout << "Invalid Alg_Type in keyFile!\n" << std::endl;
@@ -398,32 +413,37 @@ public:
 					int length;
 					std::cout << "Enter length key: " << std::endl;
 					std::cin >> length;
-					int* arr = new int[length];
-					srand(time(NULL));
-					int tmp_digit;
-					for (int i = 0; i < length; i++) {
-						while (1) {
-							bool random = true;
-							tmp_digit = 1 + rand() % alph.at("alp").size();
-							for (int j = 0; j < i; j++) {
-								if (arr[i] == tmp_digit) {
-									random = false;
+					if (length > 0) {
+						int* arr = new int[length];
+						srand(time(NULL));
+						int tmp_digit;
+						for (int i = 0; i < length; i++) {
+							while (1) {
+								bool random = true;
+								tmp_digit = 1 + rand() % alph.at("alp").size();
+								for (int j = 0; j < i; j++) {
+									if (arr[i] == tmp_digit) {
+										random = false;
+										break;
+									}
+								}
+								if (random) {
 									break;
 								}
 							}
-							if (random) {
-								break;
-							}
+							arr[i] = tmp_digit;
 						}
-						arr[i] = tmp_digit;
+						for (int i = 0; i < length; i++) {
+							key.at("Key").push_back(arr[i]);
+						}
+						std::ofstream inputFile(pathSave);
+						inputFile << key;
+						inputFile.close();
+						delete[] arr;
 					}
-					for (int i = 0; i < length; i++) {
-						key.at("Key").push_back(arr[i]);
+					else {
+						std::cout << "Length key must be > 0" << std::endl;
 					}
-					std::ofstream inputFile(pathSave);
-					inputFile << key;
-					inputFile.close();
-					delete[] arr;
 				}
 				else {
 					std::cout << "Incorrect format AlpFile" << std::endl;
@@ -442,6 +462,7 @@ public:
 	{
 		if ((pathTextFile.find(".txt") != -1) && (pathKey.find(".key") != -1) && (pathSave.find(".encrypt") != -1)) {
 			json key;
+			json resultEncrypt = { {"Alg_Type", "Gamma"}, {"TextEncrypt", {}} };
 			std::ifstream readFile(pathKey);
 			if (readFile.is_open()) {
 				readFile >> key;
@@ -487,9 +508,9 @@ public:
 										}
 									}
 								}
-								inputFile << text;
-								inputFile << "\n";
+								resultEncrypt.at("TextEncrypt").push_back(text);
 							}
+							inputFile << resultEncrypt;
 							inputFile.close();
 						}
 						else {
@@ -525,6 +546,7 @@ public:
 				std::cout << "Enter path to alph: " << std::endl;
 				std::cin >> pathAlph;
 				json alph;
+				json textEncrypt;
 				std::ifstream readFile(pathAlph);
 				if (readFile.is_open()) {
 					readFile >> alph;
@@ -532,44 +554,49 @@ public:
 					if (alph.find("alp") != alph.end()) {
 						std::ifstream getText(pathEncryptText);
 						if (getText.is_open()) {
-							std::ofstream inputFile(PathSave);
-							while (!getText.eof()) {
-								std::string text;
-								std::getline(getText, text);
-								for (int i = 0; i < text.size(); i++) {
-									bool isAlpSymbol = false;
-									std::string symbol;
-									symbol.push_back(text[i]);
-									int positionSymbol;
-									for (int j = 0; j < alph.at("alp").size(); j++) {
-										if (symbol == alph.at("alp").at(j)) {
-											positionSymbol = j;
-											isAlpSymbol = true;
+							getText >> textEncrypt;
+							getText.close();
+							if (textEncrypt.at("Alg_Type") == "Gamma") {
+								std::ofstream inputFile(PathSave);
+								for (int k = 0; k < textEncrypt.at("TextEncrypt").size(); k++) {
+									std::string text = textEncrypt.at("TextEncrypt").at(k);
+									for (int i = 0; i < text.size(); i++) {
+										bool isAlpSymbol = false;
+										std::string symbol;
+										symbol.push_back(text[i]);
+										int positionSymbol;
+										for (int j = 0; j < alph.at("alp").size(); j++) {
+											if (symbol == alph.at("alp").at(j)) {
+												positionSymbol = j;
+												isAlpSymbol = true;
+											}
+										}
+										if (isAlpSymbol) {
+											if (i >= key.at("Key").size()) {
+												int tmp_i = i % key.at("Key").size();
+												int positionResultSymbol = (positionSymbol - key.at("Key").at(tmp_i) + alph.at("alp").size()) % alph.at("alp").size();
+												std::string result = alph.at("alp").at(positionResultSymbol);
+												text[i] = result[0];
+											}
+											else {
+												int positionResultSymbol = (positionSymbol - key.at("Key").at(i) + alph.at("alp").size()) % alph.at("alp").size();
+												std::string result = alph.at("alp").at(positionResultSymbol);
+												text[i] = result[0];
+											}
 										}
 									}
-									if (isAlpSymbol) {
-										if (i >= key.at("Key").size()) {
-											int tmp_i = i % key.at("Key").size();
-											int positionResultSymbol = (positionSymbol - key.at("Key").at(tmp_i) + alph.at("alp").size()) % alph.at("alp").size();
-											std::string result = alph.at("alp").at(positionResultSymbol);
-											text[i] = result[0];
-										}
-										else {
-											int positionResultSymbol = (positionSymbol - key.at("Key").at(i) + alph.at("alp").size()) % alph.at("alp").size();
-											std::string result = alph.at("alp").at(positionResultSymbol);
-											text[i] = result[0];
-										}
-									}
+									inputFile << text;
+									inputFile << "\n";
 								}
-								inputFile << text;
-								inputFile << "\n";
+								inputFile.close();
 							}
-							inputFile.close();
+							else {
+								std::cout << "Incorrect Alg_Type! Must be Gamma" << std::endl;
+							}
 						}
 						else {
 							std::cout << "Dont open TextFile" << std::endl;
 						}
-						getText.close();
 					}
 					else {
 						std::cout << "In alphFile not 'alp' indeficate" << std::endl;
@@ -588,6 +615,9 @@ public:
 		}
 	}
 };
+
+
+
 int main()
 {
 	while (1)
